@@ -74,16 +74,21 @@ sub talkInSleep
         return;
     }
 
-    for (my $i = 0; $i< $duration; $i++)
+    my $lastIdleOutput = -1;
+    for (my $i = 0; $i < $duration; $i++)
     {
-	my $totalseconds = time() - $progstart;
-        statusMessage(sprintf("%s. Idle for %d:%02d (%d%% idle) ", 
+        my $totalseconds = time() - $progstart;
+        if ((int($i / 60) > $lastIdleOutput) || ($i == $duration - 1))
+        {
+            $lastIdleOutput = int($i / 60);
+            statusMessage(sprintf("%s. Idle for %d:%02d (%d%% idle) ", 
                 $message,
                 $idleFor/60, $idleFor%60,
                 $totalseconds ? $idleSeconds * 100 / $totalseconds : 100));
+        }
         sleep 1;
-	$idleFor++;
-	$idleSeconds++;
+        $idleFor++;
+        $idleSeconds++;
     }
 }
 
