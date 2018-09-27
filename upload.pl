@@ -53,7 +53,7 @@ if ( $Mode eq "config" ) {
     }
     AppendConfig ($ConfigName);
 } else {
-    unshift(@_,$Mode);
+    unshift(@ARGV, $Mode);
 }
 
 
